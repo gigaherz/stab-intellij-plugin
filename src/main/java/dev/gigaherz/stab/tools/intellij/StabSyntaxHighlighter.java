@@ -10,6 +10,7 @@ import com.intellij.openapi.project.Project;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.psi.tree.IElementType;
 import dev.gigaherz.stab.tools.intellij.lexer.StabKeyword;
+import dev.gigaherz.stab.tools.intellij.lexer.StabLexer;
 import dev.gigaherz.stab.tools.intellij.lexer.StabToken;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;

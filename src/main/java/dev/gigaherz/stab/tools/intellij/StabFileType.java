@@ -1,6 +1,5 @@
 package dev.gigaherz.stab.tools.intellij;
 
-import com.intellij.icons.AllIcons;
 import com.intellij.openapi.fileTypes.LanguageFileType;
 import com.intellij.ui.IconManager;
 import org.jetbrains.annotations.Nls;
@@ -42,6 +41,7 @@ public class StabFileType extends LanguageFileType
 
     // from AllIcons
 
+    @SuppressWarnings("SameParameterValue")
     private static @NotNull Icon load(@NotNull String path, int cacheKey, int flags) {
         return IconManager.getInstance().loadRasterizedIcon(path, StabFileType.class.getClassLoader(), cacheKey, flags);
     }

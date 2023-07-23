@@ -1,4 +1,4 @@
-package dev.gigaherz.stab.tools.intellij.compiler;
+package dev.gigaherz.stab.tools.intellij;
 /*
    Licensed to the Apache Software Foundation (ASF) under one or more
    contributor license agreements.  See the NOTICE file distributed with
@@ -18,12 +18,13 @@ package dev.gigaherz.stab.tools.intellij.compiler;
 import java.text.MessageFormat;
 import java.util.*;
 
-public class ResourceManager {
+public class StabResourceManager
+{
     private Map<Locale, ResourceBundle> resourceBundles = new HashMap();
     private Class<?> targetPackageClass;
     private String shortName;
 
-    public ResourceManager(Class<?> c, String shortName) {
+    public StabResourceManager(Class<?> c, String shortName) {
         this.targetPackageClass = c;
         this.shortName = shortName;
     }

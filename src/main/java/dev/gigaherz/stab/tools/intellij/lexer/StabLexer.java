@@ -1,14 +1,10 @@
-package dev.gigaherz.stab.tools.intellij;
+package dev.gigaherz.stab.tools.intellij.lexer;
 
 import com.intellij.lexer.Lexer;
 import com.intellij.lexer.LexerPosition;
 import com.intellij.lexer.RestartableLexer;
 import com.intellij.lexer.TokenIterator;
 import com.intellij.psi.tree.IElementType;
-import dev.gigaherz.stab.tools.intellij.compiler.*;
-import dev.gigaherz.stab.tools.intellij.lexer.StabKeyword;
-import dev.gigaherz.stab.tools.intellij.lexer.StabToken;
-import dev.gigaherz.stab.tools.intellij.parser.ParserResources;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
@@ -153,14 +149,14 @@ public class StabLexer extends Lexer implements RestartableLexer
     private void scanAndApplyKeyword()
     {
         StabToken currentLU;
-        try
+        do
         {
             currentLU = scanOne();
         }
-        catch(CodeErrorException e)
-        {
+        while (currentLU == null);
+
+        if (currentLU == StabToken.END_OF_STREAM)
             currentLU = null;
-        }
 
         tokenEnd = index;
         if (currentLU == StabToken.KEYWORD || currentLU == StabToken.CONTEXTUAL_KEYWORD)
@@ -180,7 +176,7 @@ public class StabLexer extends Lexer implements RestartableLexer
         {
             case -1 ->
             {
-                return null;
+                return StabToken.END_OF_STREAM;
             }
             case '\r' ->
             {
@@ -933,7 +929,7 @@ public class StabLexer extends Lexer implements RestartableLexer
                             switch (nextChar())
                             {
                                 case -1:
-                                    throw error(ParseErrorId.UnclosedDelimitedComment);
+                                    return null;
 
                                 case '\r':
                                     break;
@@ -948,7 +944,9 @@ public class StabLexer extends Lexer implements RestartableLexer
                                 case '*':
                                     switch (nextChar())
                                     {
-                                        case -1 -> throw error(ParseErrorId.UnclosedDelimitedComment);
+                                        case -1 -> {
+                                            return null;
+                                        }
                                         case '/' ->
                                         {
                                             nextChar();
@@ -1011,18 +1009,18 @@ public class StabLexer extends Lexer implements RestartableLexer
                     case '\\' ->
                     {
                         int unicode = scanUnicodeEscapeSequence();
-                        if (!ParserHelper.isIdentifierStartChar(unicode))
+                        if (!Character.isJavaIdentifierStart(unicode))
                         {
-                            throw error(ParseErrorId.InvalidEscapeSequence);
+                            return null;
                         }
                         scanIdentifierPart();
                         return StabToken.VERBATIM_IDENTIFIER;
                     }
                     default ->
                     {
-                        if (!ParserHelper.isIdentifierStartChar(this.currentChar))
+                        if (!Character.isJavaIdentifierStart(this.currentChar))
                         {
-                            throw error(ParseErrorId.InvalidSourceCodeChar);
+                            return null;
                         }
                         scanIdentifierPart();
                         return StabToken.VERBATIM_IDENTIFIER;
@@ -1037,18 +1035,18 @@ public class StabLexer extends Lexer implements RestartableLexer
             case '\\' ->
             {
                 int unicode = scanUnicodeEscapeSequence();
-                if (!ParserHelper.isIdentifierStartChar(unicode))
+                if (!Character.isJavaIdentifierStart(unicode))
                 {
-                    throw error(ParseErrorId.InvalidEscapeSequence);
+                    return null;
                 }
                 scanIdentifierPart();
                 return StabToken.IDENTIFIER;
             }
             default ->
             {
-                if (!ParserHelper.isIdentifierStartChar(this.currentChar))
+                if (!Character.isJavaIdentifierStart(this.currentChar))
                 {
-                    throw error(ParseErrorId.InvalidSourceCodeChar);
+                    return null;
                 }
                 scanIdentifierPart();
                 return StabToken.IDENTIFIER;
@@ -1081,7 +1079,7 @@ public class StabLexer extends Lexer implements RestartableLexer
                 case 92 ->
                 {
                     int unicode = this.scanUnicodeEscapeSequence();
-                    if (ParserHelper.isIdentifierPartChar(unicode))
+                    if (Character.isJavaIdentifierPart(unicode))
                     {
                         break;
                     }
@@ -1089,13 +1087,23 @@ public class StabLexer extends Lexer implements RestartableLexer
                 }
                 default ->
                 {
-                    if (!ParserHelper.isIdentifierPartChar(this.currentChar))
+                    if (!Character.isJavaIdentifierPart(this.currentChar))
                     {
                         return;
                     }
                 }
             }
         }
+    }
+
+    private int scanHexDigit(int character) {
+        return switch (character)
+        {
+            case 48, 49, 50, 51, 52, 53, 54, 55, 56, 57 -> character - 48;
+            case 65, 66, 67, 68, 69, 70 -> 10 + (character - 65);
+            case 97, 98, 99, 100, 101, 102 -> 10 + (character - 97);
+            default -> -1;
+        };
     }
 
     private int scanUnicodeEscapeSequence() {
@@ -1108,9 +1116,9 @@ public class StabLexer extends Lexer implements RestartableLexer
             {
                 for (i = 0; i < 8; ++i)
                 {
-                    if ((value = ParserHelper.scanHexDigit(this.nextChar())) == -1)
+                    if ((value = scanHexDigit(this.nextChar())) == -1)
                     {
-                        throw this.error(ParseErrorId.HexadecimalDigitExpected);
+                        break;
                     }
 
                     result = result * 16 + value;
@@ -1121,16 +1129,18 @@ public class StabLexer extends Lexer implements RestartableLexer
             {
                 for (i = 0; i < 4; ++i)
                 {
-                    if ((value = ParserHelper.scanHexDigit(this.nextChar())) == -1)
+                    if ((value = scanHexDigit(this.nextChar())) == -1)
                     {
-                        throw this.error(ParseErrorId.HexadecimalDigitExpected);
+                        break;
                     }
 
                     result = result * 16 + value;
                 }
                 return result;
             }
-            default -> throw this.error(ParseErrorId.InvalidEscapeSequence);
+            default -> {
+                return 0;
+            }
         }
     }
 
@@ -1156,7 +1166,7 @@ public class StabLexer extends Lexer implements RestartableLexer
                             return scanDotNumber();
                         }
                     }
-                    throw error(ParseErrorId.DecimalDigitsExpected);
+                    return StabToken.REAL_LITERAL;
                 case 'e':
                 case 'E':
                     return scanENumber();
@@ -1230,7 +1240,7 @@ public class StabLexer extends Lexer implements RestartableLexer
                 return scanExponent();
             }
         }
-        throw error(ParseErrorId.DecimalDigitsExpected);
+        return null;
     }
 
     private StabToken scanExponent() {
@@ -1287,7 +1297,7 @@ public class StabLexer extends Lexer implements RestartableLexer
             case 'F':
                 break;
             default:
-                throw error(ParseErrorId.MalformedHexadecimalNumber);
+                return null;
         }
         while (true) {
             switch (nextChar()) {
@@ -1327,8 +1337,13 @@ public class StabLexer extends Lexer implements RestartableLexer
     private StabToken scanCharacter() {
         switch (nextChar())
         {
-            case -1, '\r', '\u2028', '\u2029', '\n' -> throw error(ParseErrorId.UnclosedChar);
-            case '\'' -> throw error(ParseErrorId.MalformedChar);
+            case -1, '\r', '\u2028', '\u2029', '\n' -> {
+                return StabToken.CHARACTER_LITERAL;
+            }
+            case '\'' -> {
+                nextChar();
+                return StabToken.CHARACTER_LITERAL;
+            }
             case '\\' ->
             {
                 switch (nextChar())
@@ -1340,14 +1355,14 @@ public class StabLexer extends Lexer implements RestartableLexer
                         for (int i = 0; i < 4; i++)
                         {
                             int digit;
-                            if ((digit = ParserHelper.scanHexDigit(nextChar())) == -1)
+                            if ((digit = scanHexDigit(nextChar())) == -1)
                             {
-                                throw error(ParseErrorId.HexadecimalDigitExpected);
+                                break;
                             }
                             value = value * 16 + digit;
                             if (value > Character.MAX_VALUE)
                             {
-                                throw error(ParseErrorId.InvalidEscapeSequence);
+                                value &= Character.MAX_VALUE;
                             }
                         }
                         nextChar();
@@ -1356,21 +1371,23 @@ public class StabLexer extends Lexer implements RestartableLexer
                     {
                         for (int i = 0; i < 8; i++)
                         {
-                            if (ParserHelper.scanHexDigit(nextChar()) == -1)
+                            if (scanHexDigit(nextChar()) == -1)
                             {
-                                throw error(ParseErrorId.HexadecimalDigitExpected);
+                                break;
                             }
                         }
                         nextChar();
                     }
                     case 'x' -> scanHexEscapeSequence();
-                    default -> throw error(ParseErrorId.InvalidEscapeSequence);
+                    default -> {
+                        return null;
+                    }
                 }
             }
             default -> nextChar();
         }
         if (this.currentChar != '\'') {
-            throw error(ParseErrorId.MalformedChar);
+            return StabToken.CHARACTER_LITERAL;
         }
         nextChar();
         return StabToken.CHARACTER_LITERAL;
@@ -1380,7 +1397,9 @@ public class StabLexer extends Lexer implements RestartableLexer
         for (;;) {
             switch (nextChar())
             {
-                case -1, '\r', '\u2028', '\u2029', '\n' -> throw error(ParseErrorId.UnclosedString);
+                case -1, '\r', '\u2028', '\u2029', '\n' -> {
+                    return StabToken.STRING_LITERAL;
+                }
                 case '"' ->
                 {
                     nextChar();
@@ -1405,18 +1424,18 @@ public class StabLexer extends Lexer implements RestartableLexer
                         case 'u':
                             for (int i = 0; i < 4; i++)
                             {
-                                if (ParserHelper.scanHexDigit(nextChar()) == -1)
+                                if (scanHexDigit(nextChar()) == -1)
                                 {
-                                    throw error(ParseErrorId.HexadecimalDigitExpected);
+                                    break;
                                 }
                             }
                             break;
                         case 'U':
                             for (int i = 0; i < 8; i++)
                             {
-                                if (ParserHelper.scanHexDigit(nextChar()) == -1)
+                                if (scanHexDigit(nextChar()) == -1)
                                 {
-                                    throw error(ParseErrorId.HexadecimalDigitExpected);
+                                    break;
                                 }
                             }
                             break;
@@ -1425,7 +1444,7 @@ public class StabLexer extends Lexer implements RestartableLexer
                             break;
 
                         default:
-                            throw error(ParseErrorId.InvalidEscapeSequence);
+                            return null;
                     }
                 }
             }
@@ -1455,7 +1474,6 @@ public class StabLexer extends Lexer implements RestartableLexer
                     }
                 }
             }
-            default -> throw error(ParseErrorId.InvalidEscapeSequence);
         }
     }
 
@@ -1463,7 +1481,9 @@ public class StabLexer extends Lexer implements RestartableLexer
         for (;;) {
             switch (nextChar())
             {
-                case -1 -> throw error(ParseErrorId.UnclosedVerbatimString);
+                case -1 -> {
+                    return StabToken.VERBATIM_STRING_LITERAL;
+                }
                 case '"' ->
                 {
                     if (nextChar() != '"')
@@ -1494,7 +1514,8 @@ public class StabLexer extends Lexer implements RestartableLexer
             }
             nextChar();
         }
-        if (this.currentChar != -1 && ParserHelper.isIdentifierPartChar(this.currentChar)) {
+        if (this.currentChar != -1 && Character.isJavaIdentifierPart(this.currentChar))
+        {
             scanIdentifierPart();
             return StabToken.IDENTIFIER;
         }
@@ -1505,13 +1526,6 @@ public class StabLexer extends Lexer implements RestartableLexer
             this.keyword = StabKeyword.NONE;
             return StabToken.IDENTIFIER;
         }
-    }
-
-    private CodeErrorException error(ParseErrorId errorId, Object... arguments)
-    {
-        var err = String.format("error %d at %d:%d: %s", errorId.ordinal() + 1, 0, 0, ParserResources.getMessage(errorId, arguments));
-        LOGGER.error(err);
-        return new CodeErrorException(err);
     }
 
     private record RestorePoint(int startPosition) implements LexerPosition

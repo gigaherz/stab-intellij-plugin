@@ -16,6 +16,7 @@
         <fileType name="StabSource" implementationClass="dev.gigaherz.stab.tools.intellij.StabFileType" language="StabLanguage" />
 
         <lang.syntaxHighlighterFactory implementationClass="dev.gigaherz.stab.tools.intellij.StabSyntaxHighlighter$Factory" language="StabLanguage" />
+        <lang.braceMatcher implementationClass="dev.gigaherz.stab.tools.intellij.StabBracePairMatcher" language="StabLanguage" />
 
         <additionalTextAttributes scheme="Default" file="colorSchemes/StabLanguageDefault.xml" />
         <additionalTextAttributes scheme="Dracula" file="colorSchemes/StabLanguageDracula.xml" />

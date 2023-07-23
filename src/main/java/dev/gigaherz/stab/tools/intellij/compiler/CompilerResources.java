@@ -15,20 +15,23 @@ package dev.gigaherz.stab.tools.intellij.compiler;
    See the License for the specific language governing permissions and
    limitations under the License.
  */
+import dev.gigaherz.stab.tools.intellij.StabResourceManager;
+import dev.gigaherz.stab.tools.intellij.lexer.StabLexer;
+
 import java.util.Locale;
 
 public class CompilerResources
 {
-    private static ResourceManager resourceManager;
+    private static StabResourceManager resourceManager;
     private static Locale property$ResourceLocale;
 
     static {
         setResourceLocale(Locale.getDefault());
     }
 
-    static final ResourceManager getResourceManager() {
+    static final StabResourceManager getResourceManager() {
         if (resourceManager == null) {
-            resourceManager = new ResourceManager(CompilerResources.class, "messages");
+            resourceManager = new StabResourceManager(CompilerResources.class, "messages");
         }
 
         return resourceManager;
@@ -42,9 +45,9 @@ public class CompilerResources
         property$ResourceLocale = value;
     }
 
-    public static final String getMessage(ParseErrorId id, Object... arguments) {
+    /*public static final String getMessage(StabLexer.ParseErrorId id, Object... arguments) {
         return getResourceManager().getMessage(getResourceLocale(), id.toString(), arguments);
-    }
+    }*/
 
     public CompilerResources() {
     }

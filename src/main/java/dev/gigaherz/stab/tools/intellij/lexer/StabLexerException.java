@@ -1,4 +1,4 @@
-package dev.gigaherz.stab.tools.intellij.compiler;
+package dev.gigaherz.stab.tools.intellij.lexer;
 /*
    Licensed to the Apache Software Foundation (ASF) under one or more
    contributor license agreements.  See the NOTICE file distributed with
@@ -15,14 +15,8 @@ package dev.gigaherz.stab.tools.intellij.compiler;
    See the License for the specific language governing permissions and
    limitations under the License.
  */
-import org.jetbrains.annotations.NotNull;
-
-public interface IntIterable extends Iterable<Integer>
-{
-    /// <summary>
-    /// Creates an iterator over a collection of int values.
-    /// </summary>
-    @Override
-    @NotNull
-    IntIterator iterator();
+public class StabLexerException extends RuntimeException {
+    public StabLexerException(String message) {
+        super("Error parsing file: " + message);
+    }
 }
