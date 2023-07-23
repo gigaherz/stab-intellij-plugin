@@ -1,10 +1,10 @@
 <idea-plugin>
     <id>dev.gigaherz.stab.tools.intellij</id>
-    <name>Stab language</name>
+    <name>Stab Language</name>
     <vendor email="gigaherz+stab@gmail.com">gigaherz</vendor>
 
     <description><![CDATA[
-    Adds IDE support for syntax highlighting of Stab language code.
+    Adds IDE support for syntax highlighting of Stab Language code.
     ]]></description>
 
     <!-- please see https://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/plugin_compatibility.html
@@ -14,7 +14,7 @@
     <extensions defaultExtensionNs="com.intellij">
         <!-- Add your extensions here -->
         <fileType name="StabSource" implementationClass="dev.gigaherz.stab.tools.intellij.StabFileType" language="StabLanguage" />
-        <!--<syntaxHighlighter implementationClass="gigaherz.stab.tools.intellij.StabSyntaxHighlighter" />-->
+
         <lang.syntaxHighlighterFactory implementationClass="dev.gigaherz.stab.tools.intellij.StabSyntaxHighlighter$Factory" language="StabLanguage" />
 
         <additionalTextAttributes scheme="Default" file="colorSchemes/StabLanguageDefault.xml" />
