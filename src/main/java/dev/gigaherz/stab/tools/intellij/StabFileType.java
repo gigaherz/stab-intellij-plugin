@@ -2,7 +2,9 @@ package dev.gigaherz.stab.tools.intellij;
 
 import com.intellij.icons.AllIcons;
 import com.intellij.openapi.fileTypes.LanguageFileType;
+import com.intellij.ui.IconManager;
 import org.jetbrains.annotations.Nls;
+import org.jetbrains.annotations.NotNull;
 
 import javax.swing.*;
 
@@ -35,6 +37,13 @@ public class StabFileType extends LanguageFileType
     @Override
     public @org.jetbrains.annotations.Nullable Icon getIcon()
     {
-        return AllIcons.FileTypes.Java;
+        return StabIcon;
     }
+
+    // from AllIcons
+
+    private static @NotNull Icon load(@NotNull String path, int cacheKey, int flags) {
+        return IconManager.getInstance().loadRasterizedIcon(path, StabFileType.class.getClassLoader(), cacheKey, flags);
+    }
+    /** 16x16 */ public static final @NotNull Icon StabIcon = load("icons/stabolb.svg", 0x736b4587, 0);
 }
