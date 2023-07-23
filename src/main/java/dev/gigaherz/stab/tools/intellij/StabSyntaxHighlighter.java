@@ -25,86 +25,146 @@ public class StabSyntaxHighlighter extends SyntaxHighlighterBase
     public static final Map<StabToken, TextAttributesKey[]> FORMATTING_KEYS = new HashMap<>();
     public static final Map<StabKeyword, TextAttributesKey[]> KEYWORD_KEYS = new HashMap<>();
 
-    static {
-        addFormatting(StabToken.SINGLE_LINE_COMMENT, FormatKeys.LINE_COMMENT);
-        addFormatting(StabToken.DELIMITED_COMMENT, FormatKeys.STAB_BLOCK_COMMENT);
+    static
+    {
 
-        addFormatting(StabToken.DOT, FormatKeys.DOT);
-        addFormatting(StabToken.COMMA, FormatKeys.COMMA);
-        addFormatting(StabToken.SEMICOLON, FormatKeys.STAB_SEMICOLON);
-        addFormatting(StabToken.OPEN_BRACE, FormatKeys.BRACES);
-        addFormatting(StabToken.CLOSE_BRACE, FormatKeys.BRACES);
-        addFormatting(StabToken.OPEN_BRACKET, FormatKeys.BRACKETS);
-        addFormatting(StabToken.CLOSE_BRACKET, FormatKeys.BRACKETS);
-        addFormatting(StabToken.OPEN_PARENTHESIS, FormatKeys.PARENTHESES);
-        addFormatting(StabToken.CLOSE_PARENTHESIS, FormatKeys.PARENTHESES);
-
-        addFormatting(StabToken.DECIMAL_INTEGER_LITERAL, FormatKeys.NUMBER);
-        addFormatting(StabToken.HEXADECIMAL_INTEGER_LITERAL, FormatKeys.NUMBER);
-        addFormatting(StabToken.LONG_LITERAL, FormatKeys.NUMBER);
-        addFormatting(StabToken.HEXADECIMAL_LONG_LITERAL, FormatKeys.NUMBER);
-        addFormatting(StabToken.FLOAT_LITERAL, FormatKeys.NUMBER);
-        addFormatting(StabToken.DOUBLE_LITERAL, FormatKeys.NUMBER);
-
-        addFormatting(StabToken.STRING_LITERAL, FormatKeys.STRING);
-        addFormatting(StabToken.VERBATIM_STRING_LITERAL, FormatKeys.STRING);
-
-        addFormatting(StabToken.CHARACTER_LITERAL, FormatKeys.STRING);
-
-        addFormatting(StabToken.KEYWORD, FormatKeys.KEYWORD);
-        addFormatting(StabKeyword.NEW, FormatKeys.KEYWORD2);
-        addFormatting(StabKeyword.OVERRIDE, FormatKeys.KEYWORD2);
+        addFormatting(StabKeyword.ABSTRACT, FormatKeys.KEYWORD2);
+        addFormatting(StabKeyword.AS, FormatKeys.KEYWORD2);
+        addFormatting(StabKeyword.ASCENDING, FormatKeys.KEYWORD2);
+        addFormatting(StabKeyword.BOOLEAN, FormatKeys.KEYWORD2);
+        addFormatting(StabKeyword.BREAK, FormatKeys.KEYWORD2);
+        addFormatting(StabKeyword.BY, FormatKeys.KEYWORD2);
         addFormatting(StabKeyword.BYTE, FormatKeys.KEYWORD2);
-        addFormatting(StabKeyword.SHORT, FormatKeys.KEYWORD2);
-        addFormatting(StabKeyword.INT, FormatKeys.KEYWORD2);
-        addFormatting(StabKeyword.LONG, FormatKeys.KEYWORD2);
-        addFormatting(StabKeyword.FLOAT, FormatKeys.KEYWORD2);
+        addFormatting(StabKeyword.CASE, FormatKeys.KEYWORD2);
+        addFormatting(StabKeyword.CATCH, FormatKeys.KEYWORD2);
+        addFormatting(StabKeyword.CHAR, FormatKeys.KEYWORD2);
+        addFormatting(StabKeyword.CLASS, FormatKeys.KEYWORD2);
+        addFormatting(StabKeyword.CONTINUE, FormatKeys.KEYWORD2);
+        addFormatting(StabKeyword.DEFAULT, FormatKeys.KEYWORD2);
+        addFormatting(StabKeyword.DELEGATE, FormatKeys.KEYWORD2);
+        addFormatting(StabKeyword.DESCENDING, FormatKeys.KEYWORD2);
         addFormatting(StabKeyword.DOUBLE, FormatKeys.KEYWORD2);
-
-        //addFormatting(LexicalUnit.Identifier, JavaHighlightingColors.);
-        //addFormatting(LexicalUnit.VerbatimStringLiteral, JavaHighlightingColors.ide);
+        addFormatting(StabKeyword.DO, FormatKeys.KEYWORD2);
+        addFormatting(StabKeyword.ELSE, FormatKeys.KEYWORD2);
+        addFormatting(StabKeyword.ENUM, FormatKeys.KEYWORD2);
+        addFormatting(StabKeyword.EQUALS, FormatKeys.KEYWORD2);
+        addFormatting(StabKeyword.FALSE, FormatKeys.KEYWORD2);
+        addFormatting(StabKeyword.FINAL, FormatKeys.KEYWORD2);
+        addFormatting(StabKeyword.FINALLY, FormatKeys.KEYWORD2);
+        addFormatting(StabKeyword.FLOAT, FormatKeys.KEYWORD2);
+        addFormatting(StabKeyword.FOR, FormatKeys.KEYWORD2);
+        addFormatting(StabKeyword.FOREACH, FormatKeys.KEYWORD2);
+        addFormatting(StabKeyword.FROM, FormatKeys.KEYWORD2);
+        addFormatting(StabKeyword.GET, FormatKeys.KEYWORD2);
+        addFormatting(StabKeyword.GOTO, FormatKeys.KEYWORD2);
+        addFormatting(StabKeyword.GROUP, FormatKeys.KEYWORD2);
+        addFormatting(StabKeyword.IF, FormatKeys.KEYWORD2);
+        addFormatting(StabKeyword.IN, FormatKeys.KEYWORD2);
+        addFormatting(StabKeyword.INSTANCEOF, FormatKeys.KEYWORD2);
+        addFormatting(StabKeyword.INT, FormatKeys.KEYWORD2);
+        addFormatting(StabKeyword.INTERFACE, FormatKeys.KEYWORD2);
+        addFormatting(StabKeyword.INTO, FormatKeys.KEYWORD2);
+        addFormatting(StabKeyword.JOIN, FormatKeys.KEYWORD2);
+        addFormatting(StabKeyword.LET, FormatKeys.KEYWORD2);
+        addFormatting(StabKeyword.LONG, FormatKeys.KEYWORD2);
+        addFormatting(StabKeyword.PACKAGE, FormatKeys.KEYWORD2);
+        addFormatting(StabKeyword.NATIVE, FormatKeys.KEYWORD2);
+        addFormatting(StabKeyword.NEW, FormatKeys.KEYWORD2);
+        addFormatting(StabKeyword.NULL, FormatKeys.KEYWORD2);
+        addFormatting(StabKeyword.ON, FormatKeys.KEYWORD2);
+        addFormatting(StabKeyword.ORDERBY, FormatKeys.KEYWORD2);
+        addFormatting(StabKeyword.OVERRIDE, FormatKeys.KEYWORD2);
+        addFormatting(StabKeyword.PARAMS, FormatKeys.KEYWORD2);
+        addFormatting(StabKeyword.PARTIAL, FormatKeys.KEYWORD2);
+        addFormatting(StabKeyword.PRIVATE, FormatKeys.KEYWORD2);
+        addFormatting(StabKeyword.PROTECTED, FormatKeys.KEYWORD2);
+        addFormatting(StabKeyword.PUBLIC, FormatKeys.KEYWORD2);
+        addFormatting(StabKeyword.RETURN, FormatKeys.KEYWORD2);
+        addFormatting(StabKeyword.SELECT, FormatKeys.KEYWORD2);
+        addFormatting(StabKeyword.SET, FormatKeys.KEYWORD2);
+        addFormatting(StabKeyword.SHORT, FormatKeys.KEYWORD2);
+        addFormatting(StabKeyword.SIZE_OF, FormatKeys.KEYWORD2);
+        addFormatting(StabKeyword.STATIC, FormatKeys.KEYWORD2);
+        addFormatting(StabKeyword.STRICTFP, FormatKeys.KEYWORD2);
+        addFormatting(StabKeyword.SUPER, FormatKeys.KEYWORD2);
+        addFormatting(StabKeyword.SWITCH, FormatKeys.KEYWORD2);
+        addFormatting(StabKeyword.SYNCHRONIZED, FormatKeys.KEYWORD2);
+        addFormatting(StabKeyword.THIS, FormatKeys.KEYWORD2);
+        addFormatting(StabKeyword.THROW, FormatKeys.KEYWORD2);
+        addFormatting(StabKeyword.TRANSIENT, FormatKeys.KEYWORD2);
+        addFormatting(StabKeyword.TRUE, FormatKeys.KEYWORD2);
+        addFormatting(StabKeyword.TRY, FormatKeys.KEYWORD2);
+        addFormatting(StabKeyword.TYPE_OF, FormatKeys.KEYWORD2);
+        addFormatting(StabKeyword.USING, FormatKeys.KEYWORD2);
+        addFormatting(StabKeyword.VALUE, FormatKeys.KEYWORD2);
+        addFormatting(StabKeyword.VAR, FormatKeys.KEYWORD2);
+        addFormatting(StabKeyword.VIRTUAL, FormatKeys.KEYWORD2);
+        addFormatting(StabKeyword.VOID, FormatKeys.KEYWORD2);
+        addFormatting(StabKeyword.VOLATILE, FormatKeys.KEYWORD2);
+        addFormatting(StabKeyword.WHERE, FormatKeys.KEYWORD2);
+        addFormatting(StabKeyword.WHILE, FormatKeys.KEYWORD2);
+        addFormatting(StabKeyword.YIELD, FormatKeys.KEYWORD2);
 
         addFormatting(StabToken.ADD_ASSIGN, FormatKeys.OPERATION_SIGN);
-        addFormatting(StabToken.AND_ASSIGN, FormatKeys.OPERATION_SIGN);
-        addFormatting(StabToken.DIVIDE_ASSIGN, FormatKeys.OPERATION_SIGN);
-        addFormatting(StabToken.LEFT_SHIFT_ASSIGN, FormatKeys.OPERATION_SIGN);
-        addFormatting(StabToken.MODULO_ASSIGN, FormatKeys.OPERATION_SIGN);
-        addFormatting(StabToken.MULTIPLY_ASSIGN, FormatKeys.OPERATION_SIGN);
-        addFormatting(StabToken.OR_ASSIGN, FormatKeys.OPERATION_SIGN);
-        addFormatting(StabToken.XOR_ASSIGN,    FormatKeys.OPERATION_SIGN);
         addFormatting(StabToken.AND, FormatKeys.OPERATION_SIGN);
+        addFormatting(StabToken.AND_ASSIGN, FormatKeys.OPERATION_SIGN);
         addFormatting(StabToken.ASSIGN, FormatKeys.OPERATION_SIGN);
-        addFormatting(StabToken.CHARACTER_LITERAL, FormatKeys.OPERATION_SIGN);
+        addFormatting(StabToken.CHARACTER_LITERAL, FormatKeys.STRING);
+        addFormatting(StabToken.CLOSE_BRACE, FormatKeys.BRACES);
+        addFormatting(StabToken.CLOSE_BRACKET, FormatKeys.BRACKETS);
+        addFormatting(StabToken.CLOSE_PARENTHESIS, FormatKeys.PARENTHESES);
         addFormatting(StabToken.COLON, FormatKeys.OPERATION_SIGN);
+        addFormatting(StabToken.COMMA, FormatKeys.COMMA);
         addFormatting(StabToken.COMPLEMENT, FormatKeys.OPERATION_SIGN);
         addFormatting(StabToken.CONTEXTUAL_KEYWORD, FormatKeys.OPERATION_SIGN);
+        addFormatting(StabToken.DECIMAL_INTEGER_LITERAL, FormatKeys.NUMBER);
         addFormatting(StabToken.DECREMENT, FormatKeys.OPERATION_SIGN);
+        addFormatting(StabToken.DELIMITED_COMMENT, FormatKeys.STAB_BLOCK_COMMENT);
         addFormatting(StabToken.DIVIDE, FormatKeys.OPERATION_SIGN);
+        addFormatting(StabToken.DIVIDE_ASSIGN, FormatKeys.OPERATION_SIGN);
+        addFormatting(StabToken.DOT, FormatKeys.DOT);
+        addFormatting(StabToken.DOUBLE_LITERAL, FormatKeys.NUMBER);
         addFormatting(StabToken.EQUAL, FormatKeys.OPERATION_SIGN);
+        addFormatting(StabToken.FLOAT_LITERAL, FormatKeys.NUMBER);
         addFormatting(StabToken.GREATER_THAN, FormatKeys.OPERATION_SIGN);
         addFormatting(StabToken.GREATER_THAN_OR_EQUAL, FormatKeys.OPERATION_SIGN);
+        addFormatting(StabToken.HEXADECIMAL_INTEGER_LITERAL, FormatKeys.NUMBER);
+        addFormatting(StabToken.HEXADECIMAL_LONG_LITERAL, FormatKeys.NUMBER);
+        addFormatting(StabToken.IDENTIFIER, FormatKeys.IDENTIFIER);
         addFormatting(StabToken.INCREMENT, FormatKeys.OPERATION_SIGN);
+        addFormatting(StabToken.KEYWORD, FormatKeys.KEYWORD);
         addFormatting(StabToken.LAMBDA, FormatKeys.OPERATION_SIGN);
         addFormatting(StabToken.LEFT_SHIFT, FormatKeys.OPERATION_SIGN);
+        addFormatting(StabToken.LEFT_SHIFT_ASSIGN, FormatKeys.OPERATION_SIGN);
         addFormatting(StabToken.LESS_THAN, FormatKeys.OPERATION_SIGN);
         addFormatting(StabToken.LESS_THAN_OR_EQUAL, FormatKeys.OPERATION_SIGN);
         addFormatting(StabToken.LOGICAL_AND, FormatKeys.OPERATION_SIGN);
         addFormatting(StabToken.LOGICAL_OR, FormatKeys.OPERATION_SIGN);
-        addFormatting(StabToken.LONG_LITERAL, FormatKeys.OPERATION_SIGN);
+        addFormatting(StabToken.LONG_LITERAL, FormatKeys.NUMBER);
         addFormatting(StabToken.MINUS, FormatKeys.OPERATION_SIGN);
+        addFormatting(StabToken.MODULO_ASSIGN, FormatKeys.OPERATION_SIGN);
         addFormatting(StabToken.MULTIPLY, FormatKeys.OPERATION_SIGN);
+        addFormatting(StabToken.MULTIPLY_ASSIGN, FormatKeys.OPERATION_SIGN);
         addFormatting(StabToken.NOT, FormatKeys.OPERATION_SIGN);
         addFormatting(StabToken.NOT_EQUAL, FormatKeys.OPERATION_SIGN);
         addFormatting(StabToken.NULL_COALESCING, FormatKeys.OPERATION_SIGN);
+        addFormatting(StabToken.OPEN_BRACE, FormatKeys.BRACES);
+        addFormatting(StabToken.OPEN_BRACKET, FormatKeys.BRACKETS);
+        addFormatting(StabToken.OPEN_PARENTHESIS, FormatKeys.PARENTHESES);
         addFormatting(StabToken.OR, FormatKeys.OPERATION_SIGN);
+        addFormatting(StabToken.OR_ASSIGN, FormatKeys.OPERATION_SIGN);
         addFormatting(StabToken.PERCENT, FormatKeys.OPERATION_SIGN);
         addFormatting(StabToken.PLUS, FormatKeys.OPERATION_SIGN);
         addFormatting(StabToken.QUESTION_MARK, FormatKeys.OPERATION_SIGN);
-        addFormatting(StabToken.REAL_LITERAL, FormatKeys.OPERATION_SIGN);
-        addFormatting(StabToken.SEMICOLON, FormatKeys.OPERATION_SIGN);
-        addFormatting(StabToken.SINGLE_LINE_COMMENT, FormatKeys.OPERATION_SIGN);
+        addFormatting(StabToken.REAL_LITERAL, FormatKeys.NUMBER);
+        addFormatting(StabToken.SEMICOLON, FormatKeys.SEMICOLON);
+        addFormatting(StabToken.SINGLE_LINE_COMMENT, FormatKeys.LINE_COMMENT);
+        addFormatting(StabToken.STRING_LITERAL, FormatKeys.STRING);
         addFormatting(StabToken.SUBTRACT_ASSIGN, FormatKeys.OPERATION_SIGN);
+        addFormatting(StabToken.VERBATIM_IDENTIFIER, FormatKeys.IDENTIFIER);
+        addFormatting(StabToken.VERBATIM_STRING_LITERAL, FormatKeys.STRING);
         addFormatting(StabToken.XOR, FormatKeys.OPERATION_SIGN);
+        addFormatting(StabToken.XOR_ASSIGN, FormatKeys.OPERATION_SIGN);
     }
 
     private static void addFormatting(StabToken lu, TextAttributesKey... formattings)
@@ -122,9 +182,9 @@ public class StabSyntaxHighlighter extends SyntaxHighlighterBase
     public StabSyntaxHighlighter(Project project, @Nullable VirtualFile virtualFile)
     {
         if (virtualFile == null)
-            LOGGER.warn("Stab Syntax Highlighter initialized...");
+            LOGGER.info("Stab Syntax Highlighter initialized...");
         else
-            LOGGER.warn(String.format("Stab Syntax Highlighter initialized for %s...", virtualFile.getName()));
+            LOGGER.info(String.format("Stab Syntax Highlighter initialized for %s...", virtualFile.getName()));
     }
 
     @NotNull
@@ -149,7 +209,7 @@ public class StabSyntaxHighlighter extends SyntaxHighlighterBase
                 return FORMATTING_KEYS.get(StabToken.KEYWORD);
             }
         }
-        if (iElementType instanceof StabToken token)
+        else if (iElementType instanceof StabToken token)
         {
             if (FORMATTING_KEYS.containsKey(token))
             {
@@ -172,6 +232,8 @@ public class StabSyntaxHighlighter extends SyntaxHighlighterBase
                 = TextAttributesKey.createTextAttributesKey("STAB_NUMBER", DefaultLanguageHighlighterColors.NUMBER);
         public static final TextAttributesKey STRING
                 = TextAttributesKey.createTextAttributesKey("STAB_STRING", DefaultLanguageHighlighterColors.STRING);
+        public static final TextAttributesKey IDENTIFIER
+                = TextAttributesKey.createTextAttributesKey("STAB_IDENTIFIER", DefaultLanguageHighlighterColors.IDENTIFIER);
         public static final TextAttributesKey OPERATION_SIGN
                 = TextAttributesKey.createTextAttributesKey("STAB_OPERATION_SIGN", DefaultLanguageHighlighterColors.OPERATION_SIGN);
         public static final TextAttributesKey PARENTHESES
@@ -184,72 +246,8 @@ public class StabSyntaxHighlighter extends SyntaxHighlighterBase
                 = TextAttributesKey.createTextAttributesKey("STAB_COMMA", DefaultLanguageHighlighterColors.COMMA);
         public static final TextAttributesKey DOT
                 = TextAttributesKey.createTextAttributesKey("STAB_DOT", DefaultLanguageHighlighterColors.DOT);
-        public static final TextAttributesKey STAB_SEMICOLON
+        public static final TextAttributesKey SEMICOLON
                 = TextAttributesKey.createTextAttributesKey("STAB_SEMICOLON", DefaultLanguageHighlighterColors.SEMICOLON);
-
-        public static final TextAttributesKey VALID_STRING_ESCAPE
-                = TextAttributesKey.createTextAttributesKey("STAB_VALID_STRING_ESCAPE", DefaultLanguageHighlighterColors.VALID_STRING_ESCAPE);
-        public static final TextAttributesKey INVALID_STRING_ESCAPE
-                = TextAttributesKey.createTextAttributesKey("STAB_INVALID_STRING_ESCAPE", DefaultLanguageHighlighterColors.INVALID_STRING_ESCAPE);
-
-        public static final TextAttributesKey LOCAL_VARIABLE_ATTRIBUTES
-                = TextAttributesKey.createTextAttributesKey("LOCAL_VARIABLE_ATTRIBUTES", DefaultLanguageHighlighterColors.LOCAL_VARIABLE);
-        public static final TextAttributesKey PARAMETER_ATTRIBUTES
-                = TextAttributesKey.createTextAttributesKey("PARAMETER_ATTRIBUTES", DefaultLanguageHighlighterColors.PARAMETER);
-        public static final TextAttributesKey LAMBDA_PARAMETER_ATTRIBUTES
-                = TextAttributesKey.createTextAttributesKey("LAMBDA_PARAMETER_ATTRIBUTES", PARAMETER_ATTRIBUTES);
-        public static final TextAttributesKey REASSIGNED_LOCAL_VARIABLE_ATTRIBUTES
-                = TextAttributesKey.createTextAttributesKey("REASSIGNED_LOCAL_VARIABLE_ATTRIBUTES", DefaultLanguageHighlighterColors.REASSIGNED_LOCAL_VARIABLE);
-        public static final TextAttributesKey REASSIGNED_PARAMETER_ATTRIBUTES
-                = TextAttributesKey.createTextAttributesKey("REASSIGNED_PARAMETER_ATTRIBUTES", DefaultLanguageHighlighterColors.REASSIGNED_PARAMETER);
-        public static final TextAttributesKey INSTANCE_FIELD_ATTRIBUTES
-                = TextAttributesKey.createTextAttributesKey("INSTANCE_FIELD_ATTRIBUTES", DefaultLanguageHighlighterColors.INSTANCE_FIELD);
-        public static final TextAttributesKey INSTANCE_FINAL_FIELD_ATTRIBUTES
-                = TextAttributesKey.createTextAttributesKey("INSTANCE_FINAL_FIELD_ATTRIBUTES", INSTANCE_FIELD_ATTRIBUTES);
-        public static final TextAttributesKey STATIC_FIELD_ATTRIBUTES
-                = TextAttributesKey.createTextAttributesKey("STATIC_FIELD_ATTRIBUTES", DefaultLanguageHighlighterColors.STATIC_FIELD);
-        public static final TextAttributesKey STATIC_FIELD_IMPORTED_ATTRIBUTES
-                = TextAttributesKey.createTextAttributesKey("STATIC_FIELD_IMPORTED_ATTRIBUTES", STATIC_FIELD_ATTRIBUTES);
-        public static final TextAttributesKey STATIC_FINAL_FIELD_ATTRIBUTES
-                = TextAttributesKey.createTextAttributesKey("STATIC_FINAL_FIELD_ATTRIBUTES", STATIC_FIELD_ATTRIBUTES);
-        public static final TextAttributesKey STATIC_FINAL_FIELD_IMPORTED_ATTRIBUTES
-                = TextAttributesKey.createTextAttributesKey("STATIC_FINAL_FIELD_IMPORTED_ATTRIBUTES", STATIC_FINAL_FIELD_ATTRIBUTES);
-        public static final TextAttributesKey CLASS_NAME_ATTRIBUTES
-                = TextAttributesKey.createTextAttributesKey("CLASS_NAME_ATTRIBUTES", DefaultLanguageHighlighterColors.CLASS_NAME);
-        public static final TextAttributesKey ANONYMOUS_CLASS_NAME_ATTRIBUTES
-                = TextAttributesKey.createTextAttributesKey("ANONYMOUS_CLASS_NAME_ATTRIBUTES", CLASS_NAME_ATTRIBUTES);
-        public static final TextAttributesKey IMPLICIT_ANONYMOUS_CLASS_PARAMETER_ATTRIBUTES
-                = TextAttributesKey.createTextAttributesKey("IMPLICIT_ANONYMOUS_CLASS_PARAMETER_ATTRIBUTES", CLASS_NAME_ATTRIBUTES);
-        public static final TextAttributesKey TYPE_PARAMETER_NAME_ATTRIBUTES
-                = TextAttributesKey.createTextAttributesKey("TYPE_PARAMETER_NAME_ATTRIBUTES", DefaultLanguageHighlighterColors.PARAMETER);
-        public static final TextAttributesKey INTERFACE_NAME_ATTRIBUTES
-                = TextAttributesKey.createTextAttributesKey("INTERFACE_NAME_ATTRIBUTES", DefaultLanguageHighlighterColors.INTERFACE_NAME);
-        public static final TextAttributesKey ENUM_NAME_ATTRIBUTES
-                = TextAttributesKey.createTextAttributesKey("ENUM_NAME_ATTRIBUTES", CLASS_NAME_ATTRIBUTES);
-        public static final TextAttributesKey ABSTRACT_CLASS_NAME_ATTRIBUTES
-                = TextAttributesKey.createTextAttributesKey("ABSTRACT_CLASS_NAME_ATTRIBUTES", CLASS_NAME_ATTRIBUTES);
-        public static final TextAttributesKey METHOD_CALL_ATTRIBUTES
-                = TextAttributesKey.createTextAttributesKey("METHOD_CALL_ATTRIBUTES", DefaultLanguageHighlighterColors.FUNCTION_CALL);
-        public static final TextAttributesKey METHOD_DECLARATION_ATTRIBUTES
-                = TextAttributesKey.createTextAttributesKey("METHOD_DECLARATION_ATTRIBUTES", DefaultLanguageHighlighterColors.FUNCTION_DECLARATION);
-        public static final TextAttributesKey STATIC_METHOD_ATTRIBUTES
-                = TextAttributesKey.createTextAttributesKey("STATIC_METHOD_ATTRIBUTES", DefaultLanguageHighlighterColors.STATIC_METHOD);
-        public static final TextAttributesKey STATIC_METHOD_CALL_IMPORTED_ATTRIBUTES
-                = TextAttributesKey.createTextAttributesKey("STATIC_METHOD_IMPORTED_ATTRIBUTES", STATIC_METHOD_ATTRIBUTES);
-        public static final TextAttributesKey ABSTRACT_METHOD_ATTRIBUTES
-                = TextAttributesKey.createTextAttributesKey("ABSTRACT_METHOD_ATTRIBUTES", METHOD_CALL_ATTRIBUTES);
-        public static final TextAttributesKey INHERITED_METHOD_ATTRIBUTES
-                = TextAttributesKey.createTextAttributesKey("INHERITED_METHOD_ATTRIBUTES", METHOD_CALL_ATTRIBUTES);
-        public static final TextAttributesKey CONSTRUCTOR_CALL_ATTRIBUTES
-                = TextAttributesKey.createTextAttributesKey("CONSTRUCTOR_CALL_ATTRIBUTES", DefaultLanguageHighlighterColors.FUNCTION_CALL);
-        public static final TextAttributesKey CONSTRUCTOR_DECLARATION_ATTRIBUTES
-                = TextAttributesKey.createTextAttributesKey("CONSTRUCTOR_DECLARATION_ATTRIBUTES", DefaultLanguageHighlighterColors.FUNCTION_DECLARATION);
-        public static final TextAttributesKey ANNOTATION_NAME_ATTRIBUTES
-                = TextAttributesKey.createTextAttributesKey("ANNOTATION_NAME_ATTRIBUTES", DefaultLanguageHighlighterColors.METADATA);
-        public static final TextAttributesKey ANNOTATION_ATTRIBUTE_NAME_ATTRIBUTES
-                = TextAttributesKey.createTextAttributesKey("ANNOTATION_ATTRIBUTE_NAME_ATTRIBUTES", DefaultLanguageHighlighterColors.METADATA);
-        public static final TextAttributesKey ANNOTATION_ATTRIBUTE_VALUE_ATTRIBUTES
-                = TextAttributesKey.createTextAttributesKey("ANNOTATION_ATTRIBUTE_VALUE_ATTRIBUTES", DefaultLanguageHighlighterColors.METADATA);
     }
 
     public static class Factory extends SyntaxHighlighterFactory

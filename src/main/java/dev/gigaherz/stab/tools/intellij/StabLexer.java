@@ -20,7 +20,6 @@ public class StabLexer extends Lexer implements RestartableLexer
     private CharSequence text = "";
     private int start = 0;
     private int end = 0;
-    private int length = 0;
     private int index = 0;
 
     private int tokenStart;
@@ -57,7 +56,7 @@ public class StabLexer extends Lexer implements RestartableLexer
     {
         setSource(buffer, startOffset, endOffset);
 
-        restart(0);
+        restart(startOffset);
     }
 
     @Override
@@ -75,13 +74,13 @@ public class StabLexer extends Lexer implements RestartableLexer
     @Override
     public int getTokenStart()
     {
-        return this.tokenStart - this.start;
+        return this.tokenStart;
     }
 
     @Override
     public int getTokenEnd()
     {
-        return this.tokenEnd - this.start;
+        return this.tokenEnd ;
     }
 
     @Override
@@ -93,13 +92,13 @@ public class StabLexer extends Lexer implements RestartableLexer
     @Override
     public @NotNull LexerPosition getCurrentPosition()
     {
-        return new RestorePoint(this.index - this.start);
+        return new RestorePoint(this.index);
     }
 
     @Override
     public void restore(@NotNull LexerPosition position)
     {
-        restart(position.getOffset() + this.start);
+        restart(position.getOffset());
     }
 
     @Override
@@ -111,7 +110,7 @@ public class StabLexer extends Lexer implements RestartableLexer
     @Override
     public int getBufferEnd()
     {
-        return length;
+        return end;
     }
 
 
@@ -120,12 +119,11 @@ public class StabLexer extends Lexer implements RestartableLexer
         this.text = buffer;
         this.start = start;
         this.end = end;
-        this.length = end-start;
     }
 
     protected final void restart(int position)
     {
-        this.index = position + start;
+        this.index = position;
         this.tokenStart = this.index;
         this.tokenEnd = this.index;
         this.currentChar = peekChar();
@@ -154,9 +152,18 @@ public class StabLexer extends Lexer implements RestartableLexer
 
     private void scanAndApplyKeyword()
     {
-        StabToken currentLU = scanOne();
+        StabToken currentLU;
+        try
+        {
+            currentLU = scanOne();
+        }
+        catch(CodeErrorException e)
+        {
+            currentLU = null;
+        }
+
         tokenEnd = index;
-        if (currentLU == StabToken.KEYWORD)
+        if (currentLU == StabToken.KEYWORD || currentLU == StabToken.CONTEXTUAL_KEYWORD)
         {
             tokenType = this.keyword;
         }
