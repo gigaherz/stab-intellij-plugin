@@ -23,8 +23,48 @@ public class StabSyntaxHighlighter extends SyntaxHighlighterBase
 {
     public static final Logger LOGGER = org.slf4j.LoggerFactory.getLogger(StabSyntaxHighlighter.class);
 
+    final StabLexer lexer = new StabLexer();
+
+    public StabSyntaxHighlighter(Project project, @Nullable VirtualFile virtualFile)
+    {
+        if (virtualFile == null)
+            LOGGER.info("Stab Syntax Highlighter initialized...");
+        else
+            LOGGER.info(String.format("Stab Syntax Highlighter initialized for %s...", virtualFile.getName()));
+    }
+
+    @NotNull
+    @Override
+    public Lexer getHighlightingLexer()
+    {
+        return lexer;
+    }
+
+    @NotNull
+    @Override
+    public TextAttributesKey[] getTokenHighlights(IElementType iElementType)
+    {
+        if (iElementType instanceof StabToken token)
+        {
+            if (FORMATTING_KEYS.containsKey(token))
+            {
+                return FORMATTING_KEYS.get(token);
+            }
+
+            if (token.isKeyword() && FORMATTING_KEYS.containsKey(StabToken.KEYWORD))
+            {
+                return FORMATTING_KEYS.get(StabToken.KEYWORD);
+            }
+        }
+        return new TextAttributesKey[0];
+    }
+
     public static final Map<StabToken, TextAttributesKey[]> FORMATTING_KEYS = new HashMap<>();
-    public static final Map<StabKeyword, TextAttributesKey[]> KEYWORD_KEYS = new HashMap<>();
+
+    private static void addFormatting(StabToken lu, TextAttributesKey... formattings)
+    {
+        FORMATTING_KEYS.put(lu, formattings);
+    }
 
     static
     {
@@ -166,58 +206,6 @@ public class StabSyntaxHighlighter extends SyntaxHighlighterBase
         addFormatting(StabToken.VERBATIM_STRING_LITERAL, FormatKeys.STRING);
         addFormatting(StabToken.XOR, FormatKeys.OPERATION_SIGN);
         addFormatting(StabToken.XOR_ASSIGN, FormatKeys.OPERATION_SIGN);
-    }
-
-    private static void addFormatting(StabToken lu, TextAttributesKey... formattings)
-    {
-        FORMATTING_KEYS.put(lu, formattings);
-    }
-
-    private static void addFormatting(StabKeyword kw, TextAttributesKey... formattings)
-    {
-        KEYWORD_KEYS.put(kw, formattings);
-    }
-
-    final StabLexer lexer = new StabLexer();
-
-    public StabSyntaxHighlighter(Project project, @Nullable VirtualFile virtualFile)
-    {
-        if (virtualFile == null)
-            LOGGER.info("Stab Syntax Highlighter initialized...");
-        else
-            LOGGER.info(String.format("Stab Syntax Highlighter initialized for %s...", virtualFile.getName()));
-    }
-
-    @NotNull
-    @Override
-    public Lexer getHighlightingLexer()
-    {
-        return lexer;
-    }
-
-    @NotNull
-    @Override
-    public TextAttributesKey[] getTokenHighlights(IElementType iElementType)
-    {
-        if (iElementType instanceof StabKeyword keyword)
-        {
-            if (KEYWORD_KEYS.containsKey(keyword))
-            {
-                return KEYWORD_KEYS.get(keyword);
-            }
-            else if (FORMATTING_KEYS.containsKey(StabToken.KEYWORD))
-            {
-                return FORMATTING_KEYS.get(StabToken.KEYWORD);
-            }
-        }
-        else if (iElementType instanceof StabToken token)
-        {
-            if (FORMATTING_KEYS.containsKey(token))
-            {
-                return FORMATTING_KEYS.get(token);
-            }
-        }
-        return new TextAttributesKey[0];
     }
 
     private static class FormatKeys {

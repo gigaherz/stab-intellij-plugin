@@ -24,6 +24,8 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 
+import java.util.Objects;
+
 public class StabLexer extends Lexer implements RestartableLexer
 {
     public static final Logger LOGGER = org.slf4j.LoggerFactory.getLogger(StabLexer.class);
@@ -157,18 +159,13 @@ public class StabLexer extends Lexer implements RestartableLexer
 
     private void scanAndApplyKeyword()
     {
-        StabToken currentLU;
-        do
-        {
-            currentLU = scanOne();
-        }
-        while (currentLU == null);
-
-        if (currentLU == StabToken.END_OF_STREAM)
-            currentLU = null;
+        StabToken currentLU = Objects.requireNonNull(scanOne());
 
         tokenEnd = index;
-        if (currentLU == StabToken.KEYWORD || currentLU == StabToken.CONTEXTUAL_KEYWORD)
+
+        if (currentLU == StabToken.END_OF_STREAM)
+            tokenType = null;
+        else if (currentLU == StabToken.KEYWORD || currentLU == StabToken.CONTEXTUAL_KEYWORD)
         {
             tokenType = this.keyword;
         }
@@ -938,7 +935,7 @@ public class StabLexer extends Lexer implements RestartableLexer
                             switch (nextChar())
                             {
                                 case -1:
-                                    return null;
+                                    return StabToken.DELIMITED_COMMENT;
 
                                 case '\r':
                                     break;
@@ -954,7 +951,7 @@ public class StabLexer extends Lexer implements RestartableLexer
                                     switch (nextChar())
                                     {
                                         case -1 -> {
-                                            return null;
+                                            return StabToken.DELIMITED_COMMENT;
                                         }
                                         case '/' ->
                                         {
@@ -1020,7 +1017,7 @@ public class StabLexer extends Lexer implements RestartableLexer
                         int unicode = scanUnicodeEscapeSequence();
                         if (!Character.isJavaIdentifierStart(unicode))
                         {
-                            return null;
+                            return StabToken.ERROR;
                         }
                         scanIdentifierPart();
                         return StabToken.VERBATIM_IDENTIFIER;
@@ -1029,7 +1026,8 @@ public class StabLexer extends Lexer implements RestartableLexer
                     {
                         if (!Character.isJavaIdentifierStart(this.currentChar))
                         {
-                            return null;
+                            this.nextChar();
+                            return StabToken.ERROR;
                         }
                         scanIdentifierPart();
                         return StabToken.VERBATIM_IDENTIFIER;
@@ -1046,7 +1044,7 @@ public class StabLexer extends Lexer implements RestartableLexer
                 int unicode = scanUnicodeEscapeSequence();
                 if (!Character.isJavaIdentifierStart(unicode))
                 {
-                    return null;
+                    return StabToken.ERROR;
                 }
                 scanIdentifierPart();
                 return StabToken.IDENTIFIER;
@@ -1055,7 +1053,8 @@ public class StabLexer extends Lexer implements RestartableLexer
             {
                 if (!Character.isJavaIdentifierStart(this.currentChar))
                 {
-                    return null;
+                    this.nextChar();
+                    return StabToken.ERROR;
                 }
                 scanIdentifierPart();
                 return StabToken.IDENTIFIER;
@@ -1249,6 +1248,7 @@ public class StabLexer extends Lexer implements RestartableLexer
                 return scanExponent();
             }
         }
+        this.nextChar();
         return null;
     }
 
@@ -1306,7 +1306,7 @@ public class StabLexer extends Lexer implements RestartableLexer
             case 'F':
                 break;
             default:
-                return null;
+                return StabToken.HEXADECIMAL_INTEGER_LITERAL;
         }
         while (true) {
             switch (nextChar()) {
@@ -1344,7 +1344,7 @@ public class StabLexer extends Lexer implements RestartableLexer
     }
 
     private StabToken scanCharacter() {
-        switch (nextChar())
+        outer: switch (nextChar())
         {
             case -1, '\r', '\u2028', '\u2029', '\n' -> {
                 return StabToken.CHARACTER_LITERAL;
@@ -1389,7 +1389,7 @@ public class StabLexer extends Lexer implements RestartableLexer
                     }
                     case 'x' -> scanHexEscapeSequence();
                     default -> {
-                        return null;
+                        break outer;
                     }
                 }
             }
@@ -1453,7 +1453,8 @@ public class StabLexer extends Lexer implements RestartableLexer
                             break;
 
                         default:
-                            return null;
+                            nextChar();
+                            break;
                     }
                 }
             }

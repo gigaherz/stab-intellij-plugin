@@ -21,6 +21,8 @@ import dev.gigaherz.stab.tools.intellij.StabLanguage;
 
 public class StabToken extends IElementType
 {
+    public boolean isKeyword() { return false; }
+
     protected StabToken(String debugName)
     {
         super(debugName, StabLanguage.INSTANCE);

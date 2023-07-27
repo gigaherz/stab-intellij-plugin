@@ -20,6 +20,9 @@ import dev.gigaherz.stab.tools.intellij.StabLanguage;
 
 public class StabKeyword extends StabToken
 {
+    @Override
+    public boolean isKeyword() { return true; }
+
     private StabKeyword(String debugName)
     {
         super("KEYWORD_" + debugName);
